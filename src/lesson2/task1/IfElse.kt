@@ -33,7 +33,15 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String = when{
+    (age % 10 == 1) && (age !in 5..20) && (age !in 111..119)  -> "$age год"
+    (age % 10 in 2..4) && (age !in 5..20) && (age !in 111..119) ->"$age года"
+    (age % 10 in 5..9) || (age in 5..20) || (age in 111..119) || (age % 10 ==0) ->"$age лет"
+    else -> "несуществующая возраст $age"
+}
+
+
+
 
 /**
  * Простая
@@ -44,7 +52,12 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double = when {
+    (t1 * v1 + t2 * v2 + t3 * v3) / 2 in 0.0..(t1 * v1) -> (t1 * v1 + t2 * v2 + t3 * v3) / 2 / v1
+    (t1 * v1 + t2 * v2 + t3 * v3) / 2 in (t1 * v1)..(t1 * v1 + t2 * v2) -> ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - (t1 * v1))/ v2 + t1
+    (t1 * v1 + t2 * v2 + t3 * v3) / 2 in (t1 * v1 + t2 * v2)..(t1 * v1 + t2 * v2 + t3 * v3) -> ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - (t1 * v1) - (t2 * v2))/ v3 + t1 + t2
+    else -> 0.0
+}
 
 /**
  * Простая
@@ -57,7 +70,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int = when {
+    (rookX1 == kingX || rookY1 == kingY) && (rookX2 == kingX || rookY2 == kingY) -> 3
+    (rookX1 == kingX || rookY1 == kingY) && (rookX2 != kingX && rookY2 != kingY) -> 1
+    (rookX1 != kingX && rookY1 != kingY) && (rookX2 == kingX || rookY2 == kingY) -> 2
+     rookX1 != kingX && rookY1 != kingY && rookX2 != kingX && rookY2 != kingY -> 0
+    else ->100
+}
 
 /**
  * Простая
@@ -81,7 +100,25 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if((a + b <= c) || (a + c <= b) || (b + c <= a)) return -1
+    else if((a >= b)&&(a >= c))
+           if(a * a < b * b + c * c) return 0
+           if(a * a == b * b + c * c) return 1
+           if(a * a > b * b + c * c) return 2
+
+    if((b >= a)&&(b >= c))
+            if(b * b < a * a + c * c) return 0
+        if(b * b == a * a + c * c) return 1
+        if(b * b > a * a + c * c) return 2
+
+    if((c >= b)&&(c >= a))
+        if(c * c < b * b + a * a) return 0
+        if(c * c == b * b + a * a) return 1
+        if(c * c > b * b + a * a) return 2
+
+    else return 3
+}
 
 /**
  * Средняя
